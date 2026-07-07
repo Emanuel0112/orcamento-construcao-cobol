@@ -32,14 +32,32 @@
        01  WS-TELA-ENTRADA.
            05 WS-TXT-VALOR         PIC X(08).
 
-       PROCEDURE DIVISION.
+PROCEDURE DIVISION.
        0000-PRINCIPAL SECTION.
            PERFORM 1000-ABRIR-ARQUIVO
            
-           DISPLAY " "
-           DISPLAY "--- CADASTRO DE INSUMO (PROTÓTIPO) ---"
-           
-           PERFORM 2000-COLETAR-DADOS
+           PERFORM UNTIL WS-CONFIRMA = "0"
+               DISPLAY "--------------------------------------------------"
+               DISPLAY "          SUBMENU - GERENCIAMENTO DE INSUMOS       "
+               DISPLAY "--------------------------------------------------"
+               DISPLAY " 1 - CADASTRAR NOVO INSUMO"
+               DISPLAY " 2 - CONSULTAR INSUMO POR CODIGO"
+               DISPLAY " 0 - RETORNAR AO MENU PRINCIPAL"
+               DISPLAY "--------------------------------------------------"
+               DISPLAY "DIGITE A OPCAO: " WITH NO ADVANCING
+               ACCEPT WS-CONFIRMA
+               
+               EVALUATE WS-CONFIRMA
+                   WHEN "1"
+                       PERFORM 2000-COLETAR-DADOS
+                   WHEN "2"
+                       PERFORM 3000-CONSULTAR-DADO
+                   WHEN "0"
+                       CONTINUE
+                   WHEN OTHER
+                       DISPLAY "OPCAO INVALIDA!"
+               END-EVALUATE
+           END-PERFORM.
            
            PERFORM 9000-FECHAR-ARQUIVO
            GOBACK.
@@ -53,6 +71,8 @@
            END-IF.
 
        2000-COLETAR-DADOS.
+           DISPLAY " "
+           DISPLAY "--- NOVO CADASTRO ---"
            DISPLAY "DIGITE O CODIGO DO INSUMO (6 DIGITOS): " 
                    WITH NO ADVANCING
            ACCEPT INS-CODIGO
@@ -75,20 +95,33 @@
            
            MOVE "A" TO INS-STATUS
            
-           DISPLAY "CONFIRMA A GRAVACAO? (S/N): " WITH NO ADVANCING
-           ACCEPT WS-CONFIRMA
-           
-           IF WS-CONFIRMA = "S" OR "s"
-               WRITE REG-INSUMO
-               IF WS-FS-INSUMOS = "00"
-                   DISPLAY "INSUMO GRAVADO COM SUCESSO!"
-               ELSE
-                   DISPLAY "ERRO AO GRAVAR. FILE STATUS: " 
-                           WS-FS-INSUMOS
-               END-IF
+           WRITE REG-INSUMO
+           IF WS-FS-INSUMOS = "00"
+               DISPLAY ">>> INSUMO GRAVADO COM SUCESSO! <<<"
            ELSE
-               DISPLAY "OPERACAO CANCELADA PELO USUARIO."
-           END-IF.
+               DISPLAY "ERRO AO GRAVAR. FILE STATUS: " WS-FS-INSUMOS
+           END-IF
+           DISPLAY " ".
+
+       3000-CONSULTAR-DADO.
+           DISPLAY " "
+           DISPLAY "--- CONSULTA DE INSUMO ---"
+           DISPLAY "DIGITE O CODIGO PARA BUSCA: " WITH NO ADVANCING
+           ACCEPT INS-CODIGO
+           
+      * O READ PROCURA DIRETAMENTE PELA CHAVE (INS-CODIGO)
+           READ ARQ-INSUMOS INVALID KEY
+               DISPLAY ">>> INSUMO NAO ENCONTRADO! <<<"
+           NOT INVALID KEY
+               DISPLAY "--------------------------------------------------"
+               DISPLAY "CODIGO:    " INS-CODIGO
+               DISPLAY "DESCRICAO: " INS-DESCRICAO
+               DISPLAY "UNIDADE:   " INS-UNIDADE-MEDIDA
+               DISPLAY "VALOR UN:  R$ " INS-VALOR-UNITARIO
+               DISPLAY "STATUS:    " INS-STATUS
+               DISPLAY "--------------------------------------------------"
+           END-READ
+           DISPLAY " ".
 
        9000-FECHAR-ARQUIVO.
            CLOSE ARQ-INSUMOS.
