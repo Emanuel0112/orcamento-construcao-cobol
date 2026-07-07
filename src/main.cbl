@@ -43,13 +43,15 @@
            EVALUATE TRUE
                WHEN OP-INSUMOS
                    DISPLAY " "
-                   DISPLAY ">>> CHAMANDO MODULO DE INSUMOS... <<<"
-      *            AQUI CHAMAREMOS O SUBPROGRAMA NO PROXIMO PASSO:
-      *            CALL "INSUMOS" USING ...
+                   DISPLAY ">>> REDIRECIONANDO PARA O MODULO DE INSUMO... <<<"
+                   DISPLAY " "
+                   CALL "INSUMO"
+                   DISPLAY " "
+                   DISPLAY ">>> RETORNADO AO MENU PRINCIPAL <<<"
                    DISPLAY " "
                WHEN OP-COMPOSICOES
                    DISPLAY " "
-                   DISPLAY ">>> REDIRECIONANDO PARA O MODULO DE COMPOSICOES... <<<"
+                   DISPLAY ">>> REDIRECIONANDO PARA O MODULO DE COMPOSICAO... <<<"
                    DISPLAY " "
                    CALL "COMPOSICAO"
                    DISPLAY " "
@@ -57,7 +59,11 @@
                    DISPLAY " "
                WHEN OP-ORCAMENTOS
                    DISPLAY " "
-                   DISPLAY ">>> MODULO EM DESENVOLVIMENTO... <<<"
+                   DISPLAY ">>> REDIRECIONANDO PARA O MODULO DE ORCAMENTO... <<<"
+                   DISPLAY " "
+                   CALL "ORCAMENTO"
+                   DISPLAY " "
+                   DISPLAY ">>> RETORNADO AO MENU PRINCIPAL <<<"
                    DISPLAY " "
                WHEN OP-SAIR
                    CONTINUE
