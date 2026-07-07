@@ -97,7 +97,7 @@
                ACCEPT COMP-COEFICIENTE
                
                MOVE "A" TO COMP-STATUS
-               WRITE REG-COMPOSICACAO
+               WRITE REG-COMPOSICAO
                
                IF WS-FS-COMP = "00"
                    DISPLAY ">>> ITEM VINCULADO COM SUCESSO! <<<"

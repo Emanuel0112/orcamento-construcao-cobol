@@ -1,0 +1,11 @@
+name: orcamento-construcao-cobol
+version: 1.0.0
+description: Configuracao de caminhos de busca para o ERP de Construcao
+propertyGroups:
+  - name: cobol-local-settings
+    language: cobol
+    libraries:
+      - name: syslib
+        type: local
+        locations:
+          - "copybooks"
