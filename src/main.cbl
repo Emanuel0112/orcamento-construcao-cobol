@@ -15,6 +15,7 @@
           88 OP-ORCAMENTOS     VALUE "3".
           88 OP-SAIR           VALUE "0".
 
+
        PROCEDURE DIVISION.
        0000-PRINCIPAL SECTION.
            PERFORM UNTIL OP-SAIR
@@ -48,7 +49,11 @@
                    DISPLAY " "
                WHEN OP-COMPOSICOES
                    DISPLAY " "
-                   DISPLAY ">>> MODULO EM DESENVOLVIMENTO... <<<"
+                   DISPLAY ">>> REDIRECIONANDO PARA O MODULO DE COMPOSICOES... <<<"
+                   DISPLAY " "
+                   CALL "COMPOSICAO"
+                   DISPLAY " "
+                   DISPLAY ">>> RETORNADO AO MENU PRINCIPAL <<<"
                    DISPLAY " "
                WHEN OP-ORCAMENTOS
                    DISPLAY " "
